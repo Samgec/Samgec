@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__firecrawl__firecrawl_map",
+      "mcp__firecrawl__firecrawl_scrape",
+      "Bash(curl -sLo logo.png \"https://samgec.ro/wp-content/uploads/2020/10/logo1.png\")",
+      "Bash(curl -sLo favicon.png \"https://samgec.ro/wp-content/uploads/2020/10/favicon.png\")",
+      "mcp__firecrawl__firecrawl_search",
+      "Bash(python3 -c ' *)",
+      "Bash(python3 *)",
+      "Bash(open \"http://localhost:8765/\")",
+      "Bash(osascript -e 'tell application \"System Events\" to keystroke \"r\" using command down')",
+      "Bash(open \"http://localhost:8765/?t=$\\(date +%s\\)\")",
+      "Bash(osascript -e 'tell application \"Google Chrome\" to reload active tab of front window')",
+      "Bash(osascript -e 'tell application \"Safari\" to do JavaScript \"location.reload\\(\\)\" in front document')",
+      "Bash(open \"http://localhost:8765/?r=$\\(date +%s\\)\")"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "fast-webfetch"
+  ]
+}
