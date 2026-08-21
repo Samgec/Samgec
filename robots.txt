@@ -1,4 +1,4 @@
-# SAMGEC — robots.txt
+# SAMGEC: robots.txt
 # Explicit allow for major AI/search crawlers to support AEO (AI Search Optimization).
 
 User-agent: *
@@ -11,7 +11,7 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 
-# AI assistants — explicit allow
+# AI assistants: explicit allow
 User-agent: GPTBot
 Allow: /
 

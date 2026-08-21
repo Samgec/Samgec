@@ -1,2 +1,14 @@
 .vercel
 .env*.local
+
+# Original photos (~1 GB). The site serves the optimised copies in
+# assets/poze-web/, which are generated from these and are committed.
+# Keep this folder locally as the master source; do not deploy it.
+assets/Poze/
+
+# Source archives the photos arrived in (~1 GB)
+assets/wetransfer_*.zip
+
+# OS and Office cruft
+.DS_Store
+~$*
