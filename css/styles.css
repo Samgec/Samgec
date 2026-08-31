@@ -113,6 +113,8 @@ p { margin: 0 0 1em; color: var(--ink-700); }
   padding-inline: var(--gutter);
 }
 section { padding-block: var(--section-y); position: relative; }
+/* Anchor targets must clear the fixed nav when jumped to via /#servicii etc. */
+:target, section[id], [id="ofertă"] { scroll-margin-top: calc(var(--nav-h) + 1rem); }
 section.dark { background: var(--bg-deep); color: #DCE3EC; }
 section.dark h1, section.dark h2, section.dark h3, section.dark h4 { color: var(--white); }
 section.dark p { color: #A9B5C5; }
@@ -659,6 +661,15 @@ section.dark .quote cite { color: rgba(255,255,255,0.6); }
 .spacer { height: 3rem; }
 .no-mb { margin-bottom: 0 !important; }
 
+/* Every services card wears the treatment the photovoltaic one used to have
+   on its own: accent border and a white-to-blue wash. Higher specificity than
+   .card:hover, which would otherwise clear the border on hover. */
+#servicii .stagger-cards > .card {
+  border-color: var(--accent);
+  background: linear-gradient(180deg, var(--white) 0%, var(--accent-tint) 100%);
+}
+#servicii .stagger-cards > .card:hover { border-color: var(--accent-strong); }
+
 /* ---------- Expandable cards (click to zoom to centre) ----------
    Collapsed cards show only the icon + title. On click JS pins the card with
    position:fixed at its current rect, then animates left/top/width/height to a
@@ -861,7 +872,14 @@ html.lb-open, html.lb-open body { overflow: hidden; }
   gap: 0.75rem;
   padding: clamp(2rem, 4vw, 3rem);
   border-radius: var(--radius-lg);
-  background: radial-gradient(120% 140% at 100% 0%, var(--brand-navy) 0%, var(--bg-deep) 70%);
+  /* Photo behind a blue scrim: keeps the panels readable as an image while
+     the copy sits on the same deep blue as the rest of the palette. */
+  background-image:
+    linear-gradient(155deg, rgba(5, 39, 64, 0.93) 0%, rgba(5, 39, 64, 0.82) 45%, rgba(17, 92, 147, 0.74) 100%),
+    url("../assets/homepage-3.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   color: var(--white);
   box-shadow: var(--shadow-lg);
 }

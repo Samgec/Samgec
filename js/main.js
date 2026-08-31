@@ -31,6 +31,54 @@
     );
   }
 
+  /* ---------- Deep links to in-page sections ----------
+     Arriving from another page on /#servicii used to dump you at the top.
+     The browser resolves the hash while the webfonts are still swapping in,
+     so every section's offset moves after it has already scrolled, and
+     ScrollTrigger's own refresh on load can reset it again. Redo the scroll
+     once the page has actually settled. scroll-margin-top in the CSS keeps
+     the heading clear of the fixed nav. */
+  const goToSection = (hash, smooth) => {
+    if (!hash || hash.length < 2) return false;
+    let el;
+    try {
+      el = document.querySelector(hash);
+    } catch (err) {
+      return false; // not a usable selector
+    }
+    if (!el) return false;
+    el.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "start" });
+    return true;
+  };
+
+  if (window.location.hash) {
+    const landing = decodeURIComponent(window.location.hash);
+    const settle = () => goToSection(landing, false);
+    window.addEventListener("load", () => {
+      settle();
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(settle);
+      window.setTimeout(settle, 300); // after ScrollTrigger's load refresh
+    });
+  }
+
+  /* Same-page anchors: scroll here rather than letting the browser jump, so
+     the nav offset and smooth behaviour match the cross-page case. */
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest && e.target.closest('a[href*="#"]');
+    if (!link || link.target === "_blank") return;
+    let url;
+    try {
+      url = new URL(link.href, window.location.href);
+    } catch (err) {
+      return;
+    }
+    if (url.pathname !== window.location.pathname || !url.hash) return;
+    if (goToSection(decodeURIComponent(url.hash), true)) {
+      e.preventDefault();
+      history.pushState(null, "", url.hash);
+    }
+  });
+
   /* ---------- Reveal via IntersectionObserver (always-on baseline) ---------- */
   const revealEls = document.querySelectorAll(".reveal");
   if ("IntersectionObserver" in window && revealEls.length) {

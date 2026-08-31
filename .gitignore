@@ -13,3 +13,7 @@ wetransfer_*.zip
 # OS and Office cruft
 .DS_Store
 ~$*
+
+# Unpacked photo drops (hundreds of MB); masters only, never deployed
+assets/wetransfer_*/
+wetransfer_*/
