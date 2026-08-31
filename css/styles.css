@@ -300,6 +300,32 @@ section.surface { background: var(--surface); }
 }
 .hero-asset svg { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.55; }
 
+/* Homepage: full-bleed photo hero.
+   The photo is a bright sky over panels, so a blue scrim carries the brand
+   colour and buys contrast for the copy — heaviest at the left where the text
+   sits, thinning to the right so the panels still read as a photograph. */
+.hero-photo {
+  background-image:
+    linear-gradient(96deg,
+      rgba(4, 26, 43, 0.94) 0%,
+      rgba(5, 39, 64, 0.86) 32%,
+      rgba(12, 70, 112, 0.62) 60%,
+      rgba(25, 167, 252, 0.28) 100%),
+    linear-gradient(to top, rgba(4, 26, 43, 0.85) 0%, rgba(4, 26, 43, 0) 42%),
+    url("../assets/Homepage.jpg");
+  background-size: cover, cover, cover;
+  background-position: center, center, center bottom;
+  background-repeat: no-repeat;
+}
+/* Copy runs the full width of the container so the headline reads across
+   rather than stacking into a narrow column beside an image. */
+.hero-photo .hero-copy { max-width: 68rem; }
+.hero-photo h1 { max-width: 24ch; }
+.hero-photo .hero-lead { max-width: 62ch; }
+@media (max-width: 640px) {
+  .hero-photo { background-position: center, center, 70% bottom; }
+}
+
 /* Despre: history content living in the hero shell. Plain <p> and .metric are
    styled for light sections, so they need the hero's dark-ground treatment. */
 .hero-story h1 { font-size: clamp(2.2rem, 4vw, 3.4rem); margin-bottom: 1.25rem; }
