@@ -295,7 +295,9 @@
     });
   }
 
-  gsap.from(".hero-eyebrow, .hero-lead, .hero-cta, .hero-stats", {
+  // .is-static opts a stats block out of the entrance fade so its figures are
+  // on screen the moment the page paints.
+  gsap.from(".hero-eyebrow, .hero-lead, .hero-cta, .hero-stats:not(.is-static)", {
     y: 28,
     opacity: 0,
     duration: 0.9,
