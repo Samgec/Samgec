@@ -319,6 +319,20 @@ section.surface { background: var(--surface); }
   background-position: center, center, center bottom;
   background-repeat: no-repeat;
 }
+/* PV page: same treatment, its own photo. The panels fill the left of the
+   frame and the sky sits right, so the scrim runs the other way. */
+.hero-photo-pv {
+  background-image:
+    linear-gradient(96deg,
+      rgba(4, 26, 43, 0.93) 0%,
+      rgba(5, 39, 64, 0.84) 38%,
+      rgba(12, 70, 112, 0.58) 68%,
+      rgba(25, 167, 252, 0.24) 100%),
+    linear-gradient(to top, rgba(4, 26, 43, 0.85) 0%, rgba(4, 26, 43, 0) 42%),
+    url("../assets/homepage-2.jpg");
+  background-position: center, center, center;
+}
+
 /* Copy runs the full width of the container so the headline reads across
    rather than stacking into a narrow column beside an image. */
 .hero-photo .hero-copy { max-width: 68rem; }
@@ -848,7 +862,10 @@ html.lb-open, html.lb-open body { overflow: hidden; }
 .needs-list { display: grid; gap: 0.85rem; }
 .needs-list li {
   position: relative;
-  padding: 0.95rem 1.1rem 0.95rem 3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.95rem 1.1rem;
   background: var(--white);
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -857,13 +874,21 @@ html.lb-open, html.lb-open body { overflow: hidden; }
   color: var(--ink-700);
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
-.needs-list li::before {
-  content: "?";
-  position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%);
-  width: 1.6rem; height: 1.6rem; display: grid; place-items: center;
-  border-radius: 999px; background: var(--accent-tint); color: var(--accent);
-  font-family: var(--font-display); font-weight: 700; font-size: 0.95rem;
+/* Each question carries an icon for the service it asks about, in place of
+   the generic "?" marker these all used to share. */
+.needs-list .need-ico {
+  flex: 0 0 auto;
+  width: 2.1rem;
+  height: 2.1rem;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--accent-tint);
+  color: var(--accent);
+  transition: background 0.25s ease, color 0.25s ease;
 }
+.needs-list .need-ico svg { width: 18px; height: 18px; display: block; }
+.needs-list li:hover .need-ico { background: var(--accent); color: var(--white); }
 .needs-list li:hover { transform: translateX(4px); border-color: var(--accent); box-shadow: var(--shadow-md); }
 
 .answer-card {
@@ -872,10 +897,18 @@ html.lb-open, html.lb-open body { overflow: hidden; }
   gap: 0.75rem;
   padding: clamp(2rem, 4vw, 3rem);
   border-radius: var(--radius-lg);
-  /* Photo behind a blue scrim: keeps the panels readable as an image while
-     the copy sits on the same deep blue as the rest of the palette. */
+  /* Photo behind a blue scrim. Two layers rather than one flat wash: the
+     diagonal carries most of the density down the left where the copy sits
+     and fades out towards the top right, so the sky, hillside and panel
+     detail stay visible; the flat tint just holds the brand blue over the
+     whole frame. */
   background-image:
-    linear-gradient(155deg, rgba(5, 39, 64, 0.93) 0%, rgba(5, 39, 64, 0.82) 45%, rgba(17, 92, 147, 0.74) 100%),
+    linear-gradient(105deg,
+      rgba(4, 26, 43, 0.82) 0%,
+      rgba(5, 39, 64, 0.56) 40%,
+      rgba(5, 39, 64, 0.16) 72%,
+      rgba(5, 39, 64, 0) 100%),
+    linear-gradient(rgba(9, 58, 94, 0.26), rgba(9, 58, 94, 0.26)),
     url("../assets/homepage-3.jpg");
   background-size: cover;
   background-position: center;

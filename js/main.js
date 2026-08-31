@@ -260,7 +260,7 @@
       const detailsBtn = document.createElement("a");
       detailsBtn.className = "btn btn-sm";
       detailsBtn.href = "contact.html";
-      detailsBtn.innerHTML = 'Vezi detalii <span class="arr">→</span>';
+      detailsBtn.innerHTML = 'Solicită ofertă <span class="arr">→</span>';
 
       actions.appendChild(closeBtn);
       actions.appendChild(detailsBtn);

@@ -16,6 +16,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/styles.css" />
+<link rel="preload" as="image" href="assets/homepage-2.jpg" />
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
@@ -59,9 +60,9 @@
 <main>
 
   <!-- HERO -->
-  <section class="hero">
-    <div class="container hero-grid">
-      <div>
+  <section class="hero hero-photo hero-photo-pv">
+    <div class="container">
+      <div class="hero-copy">
         <p class="eyebrow hero-eyebrow">Panouri fotovoltaice · Satu Mare & nord-vestul României</p>
         <h1>Sistem fotovoltaic instalat <span class="ink">corect din prima</span>, cu dosarul de prosumator inclus.</h1>
         <p class="hero-lead">Proiectăm, dimensionăm și montăm sisteme fotovoltaice rezidențiale (3–40 kWp) și industriale (până la 400 kWp), folosind panouri premium Longi, Canadian Solar, Luxor Ecoline, Axitec și invertoare Huawei Luna, Fronius.</p>
@@ -74,24 +75,6 @@
           <div><span class="stat-num num"><span data-count="5" data-suffix="–7 ani">0</span></span><span class="stat-label">perioadă tipică de amortizare</span></div>
           <div><span class="stat-num num">15–25 ani</span><span class="stat-label">garanție performanță panouri</span></div>
         </div>
-      </div>
-      <div class="hero-asset" aria-hidden="true">
-        <!-- NANO BANANA ASSET HERE: 3D rendered photovoltaic close-up, 16:9 -->
-        <svg viewBox="0 0 600 450">
-          <defs>
-            <linearGradient id="p2" x1="0" x2="1"><stop offset="0%" stop-color="#115C93"/><stop offset="100%" stop-color="#052740"/></linearGradient>
-            <linearGradient id="s2" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#7CC9FD" stop-opacity="0.7"/><stop offset="100%" stop-color="#19A7FC" stop-opacity="0"/></linearGradient>
-          </defs>
-          <circle cx="120" cy="80" r="80" fill="url(#s2)"/>
-          <g transform="translate(120,140) rotate(-12)">
-            <g fill="url(#p2)" stroke="#19A7FC" stroke-opacity="0.4" stroke-width="0.7">
-              <rect x="0" y="0" width="160" height="90"/>
-              <rect x="165" y="0" width="160" height="90"/>
-              <rect x="0" y="95" width="160" height="90"/>
-              <rect x="165" y="95" width="160" height="90"/>
-            </g>
-          </g>
-        </svg>
       </div>
     </div>
   </section>
@@ -270,7 +253,7 @@
 </footer>
 
 <div class="float-actions">
-  <a class="wa" href="https://wa.me/40261760080" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 14.4c-.3-.1-1.6-.8-1.8-.9-.2-.1-.4-.1-.6.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.8-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.5-.9-2.1-.2-.5-.4-.5-.6-.5h-.5c-.2 0-.5.1-.7.3s-.9.9-.9 2.1c0 1.3.9 2.5 1 2.7.1.2 1.8 2.7 4.3 3.8.6.3 1.1.4 1.4.5.6.2 1.2.2 1.6.1.5-.1 1.6-.6 1.8-1.3.2-.6.2-1.2.2-1.3-.1-.2-.3-.2-.5-.3zM12 2a10 10 0 0 0-8.7 14.9L2 22l5.2-1.4A10 10 0 1 0 12 2z"/></svg></a>
+  <a class="wa" href="https://wa.me/40746237920" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 14.4c-.3-.1-1.6-.8-1.8-.9-.2-.1-.4-.1-.6.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.8-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.5-.9-2.1-.2-.5-.4-.5-.6-.5h-.5c-.2 0-.5.1-.7.3s-.9.9-.9 2.1c0 1.3.9 2.5 1 2.7.1.2 1.8 2.7 4.3 3.8.6.3 1.1.4 1.4.5.6.2 1.2.2 1.6.1.5-.1 1.6-.6 1.8-1.3.2-.6.2-1.2.2-1.3-.1-.2-.3-.2-.5-.3zM12 2a10 10 0 0 0-8.7 14.9L2 22l5.2-1.4A10 10 0 1 0 12 2z"/></svg></a>
   <a href="tel:+40261760080" aria-label="Sună"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></a>
 </div>
 
