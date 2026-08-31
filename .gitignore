@@ -6,8 +6,9 @@
 # Keep this folder locally as the master source; do not deploy it.
 assets/Poze/
 
-# Source archives the photos arrived in (~1 GB)
-assets/wetransfer_*.zip
+# Source archives the photos arrive in (hundreds of MB each), wherever they land
+wetransfer_*.zip
+**/wetransfer_*.zip
 
 # OS and Office cruft
 .DS_Store
