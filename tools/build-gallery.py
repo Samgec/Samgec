@@ -56,22 +56,38 @@ def slugify(name):
     return re.sub(r"[^a-zA-Z0-9]+", "-", s).strip("-").lower()
 
 
+def sort_key(filename):
+    """Order within a folder: After photos, then Before, then everything else.
+
+    Refurbishment projects ship as "Before 4.jpg" / "After 9.jpg". The gallery
+    opens on the first image, and the finished work is what sells the job, so
+    the After set has to lead. Numbers sort naturally (2 before 10) rather than
+    as text, which would put "After 10" ahead of "After 2".
+    """
+    low = filename.lower()
+    rank = 0 if low.startswith("after") else 1 if low.startswith("before") else 2
+    parts = re.split(r"(\d+)", low)
+    natural = [int(p) if p.isdigit() else p for p in parts]
+    return (rank, natural)
+
+
 def masters(project_dir):
-    """Images in a project, root files first then each subfolder, sorted.
+    """Images in a project, root files first then each subfolder.
 
     Some projects nest a sub-collection (e.g. Cazane/Cazane Liceul Eliza
     Zamfirescu). Those photos belong to the same project, so they are appended
     after the root ones rather than becoming a separate card.
     """
     root_files = sorted(
-        f for f in os.listdir(project_dir)
-        if f.lower().endswith(IMG_EXT) and os.path.isfile(os.path.join(project_dir, f))
+        (f for f in os.listdir(project_dir)
+         if f.lower().endswith(IMG_EXT) and os.path.isfile(os.path.join(project_dir, f))),
+        key=sort_key,
     )
     out = [os.path.join(project_dir, f) for f in root_files]
     for sub in sorted(d for d in os.listdir(project_dir)
                       if os.path.isdir(os.path.join(project_dir, d))):
         sd = os.path.join(project_dir, sub)
-        out += [os.path.join(sd, f) for f in sorted(os.listdir(sd))
+        out += [os.path.join(sd, f) for f in sorted(os.listdir(sd), key=sort_key)
                 if f.lower().endswith(IMG_EXT)]
     return out
 
