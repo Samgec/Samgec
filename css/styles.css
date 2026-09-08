@@ -795,14 +795,39 @@ html.card-zoom-open, html.card-zoom-open body { overflow: hidden; }
 .card ul.feat li { font-size: 0.95rem; color: var(--ink-700); padding-left: 1.4rem; position: relative; }
 .card ul.feat li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 8px; height: 8px; border-radius: 2px; background: var(--accent); transform: rotate(45deg); }
 
-/* ---------- Portfolio: work cards + lightbox ---------- */
-.work-card { display: flex; flex-direction: column; align-items: flex-start; }
+/* ---------- Portfolio: work cards + lightbox ----------
+   Each card carries its project's first photo via --cover (set inline in
+   proiecte.html) behind a blue scrim, so the grid previews the work itself.
+   The scrim is opaque enough at the bottom to keep the copy legible over any
+   photo, and lifts towards the top so the image still reads. */
+.work-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 340px;
+  border-color: transparent;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(4, 26, 43, 0.42) 0%,
+      rgba(4, 26, 43, 0.72) 42%,
+      rgba(5, 39, 64, 0.93) 78%,
+      rgba(5, 39, 64, 0.97) 100%),
+    var(--cover, none);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, background-size 0.6s ease;
+}
+.work-card:hover { border-color: transparent; box-shadow: var(--shadow-lg); }
 .work-card .tag {
   display: inline-block;
   padding: 0.25rem 0.7rem;
   border-radius: 999px;
-  background: var(--accent-tint);
-  color: var(--accent-strong);
+  background: rgba(255, 255, 255, 0.16);
+  color: var(--white);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   font-family: var(--font-display);
   font-size: 0.72rem;
   font-weight: 600;
@@ -810,15 +835,16 @@ html.card-zoom-open, html.card-zoom-open body { overflow: hidden; }
   text-transform: uppercase;
   margin-bottom: 0.9rem;
 }
-.work-card h3 { font-size: 1.15rem; line-height: 1.25; margin-bottom: 0.5rem; }
-.work-card p { font-size: 0.94rem; margin-bottom: 0.75rem; }
+/* Push the copy to the bottom, where the scrim is densest */
+.work-card h3 { font-size: 1.15rem; line-height: 1.25; margin-bottom: 0.5rem; margin-top: auto; color: var(--white); }
+.work-card p { font-size: 0.94rem; margin-bottom: 0.75rem; color: rgba(255, 255, 255, 0.82); }
 .work-card .work-meta {
   font-family: var(--font-display);
   font-size: 0.8rem;
-  color: var(--ink-400);
+  color: rgba(255, 255, 255, 0.62);
   margin-bottom: 1.1rem;
 }
-.work-card .btn { margin-top: auto; }
+.work-card .btn { margin-top: 0; }
 
 .lb {
   position: fixed;

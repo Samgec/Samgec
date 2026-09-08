@@ -46,6 +46,8 @@ PAGE = os.path.join(ROOT, "proiecte.html")
 IMG_EXT = (".jpg", ".jpeg", ".png", ".webp")
 FULL_PX, FULL_Q = 1600, 72
 THUMB_PX, THUMB_Q = 700, 68
+# Card cover: rendered ~280px wide behind a heavy scrim, so it can be small
+COVER_PX, COVER_Q = 560, 45
 
 HAVE_SIPS = shutil.which("sips") is not None
 HAVE_FFMPEG = shutil.which("ffmpeg") is not None
@@ -128,6 +130,30 @@ def transcode(src, dst):
     return r.returncode == 0
 
 
+def poster(video_src, dst):
+    """Still frame from a video, for projects that ship no photos.
+
+    Seeks a little way in rather than to the first frames: these clips open on
+    a title slate, and a slate behind the card's own heading is text over text.
+    Capped so short clips still land inside their runtime.
+    """
+    if not HAVE_FFMPEG:
+        return False
+    seek = 25
+    probe = subprocess.run(
+        ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+         "-of", "default=nw=1:nk=1", video_src], capture_output=True, text=True)
+    try:
+        seek = min(seek, max(1, float(probe.stdout.strip()) * 0.08))
+    except ValueError:
+        pass  # unreadable duration: fall back to the 25s default
+    r = subprocess.run(
+        ["ffmpeg", "-y", "-loglevel", "error", "-ss", str(seek), "-i", video_src,
+         "-frames:v", "1", "-vf", "scale=%d:-2" % COVER_PX, "-q:v", "6", dst],
+        capture_output=True)
+    return r.returncode == 0
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -175,6 +201,17 @@ def main():
                 if transcode(video, dst):
                     built += 1
 
+        # Cover for the portfolio card background: the project's first image,
+        # or a frame from the video for projects that ship no photos.
+        cover = os.path.join(OUT, slug, "cover.jpg")
+        if not args.check and (args.force or not os.path.exists(cover)):
+            os.makedirs(os.path.dirname(cover), exist_ok=True)
+            if imgs:
+                if resize(imgs[0], cover, COVER_PX, COVER_Q):
+                    built += 1
+            elif video and poster(video, cover):
+                built += 1
+
         manifest.append({"slug": slug, "folder": name, "images": names, "video": vid})
         print("%-46s %3d images%s" % (name[:46], len(names), "  +video" if vid else ""))
 
@@ -189,7 +226,10 @@ def main():
     # Warn when a card in proiecte.html no longer matches what is on disk.
     if os.path.exists(PAGE):
         html = open(PAGE).read()
-        counts = dict(re.findall(r'data-gallery="([^"]+)" data-photos="(\d+)"', html))
+        # Tolerate other attributes between the two (the cards also carry
+        # style="--cover:..."), so adding one does not blind this check.
+        counts = dict(re.findall(
+            r'data-gallery="([^"]+)"[^>]*?data-photos="(\d+)"', html))
         problems = []
         for p in manifest:
             want = len(p["images"])
