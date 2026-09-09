@@ -272,6 +272,7 @@ section.surface { background: var(--surface); }
 .hero h1 .word { display: inline-block; }
 .hero h1 .ink { color: var(--brand-blue); }
 .hero-lead { color: rgba(255,255,255,0.78); font-size: clamp(1.1rem, 1.6vw, 1.3rem); max-width: 56ch; margin-bottom: 2rem; }
+.hero-lead strong { color: var(--white); font-weight: 600; }
 .hero-cta { display: flex; gap: 0.85rem; flex-wrap: wrap; }
 
 .hero-stats { display: flex; gap: clamp(1.5rem, 3vw, 3rem); margin-top: 3rem; flex-wrap: wrap; }
@@ -309,11 +310,11 @@ section.surface { background: var(--surface); }
 .hero-photo {
   background-image:
     linear-gradient(96deg,
-      rgba(4, 26, 43, 0.94) 0%,
-      rgba(5, 39, 64, 0.86) 32%,
-      rgba(12, 70, 112, 0.62) 60%,
-      rgba(25, 167, 252, 0.28) 100%),
-    linear-gradient(to top, rgba(4, 26, 43, 0.85) 0%, rgba(4, 26, 43, 0) 42%),
+      rgba(4, 26, 43, 0.58) 0%,
+      rgba(5, 39, 64, 0.38) 38%,
+      rgba(12, 70, 112, 0.14) 75%,
+      rgba(4, 26, 43, 0.04) 100%),
+    linear-gradient(to top, rgba(4, 26, 43, 0.45) 0%, rgba(4, 26, 43, 0) 32%),
     url("../assets/Homepage.jpg");
   background-size: cover, cover, cover;
   background-position: center, center, center bottom;
@@ -335,9 +336,19 @@ section.surface { background: var(--surface); }
 
 /* Copy runs the full width of the container so the headline reads across
    rather than stacking into a narrow column beside an image. */
-.hero-photo .hero-copy { max-width: 68rem; }
-.hero-photo h1 { max-width: 24ch; }
-.hero-photo .hero-lead { max-width: 62ch; }
+.hero-photo .hero-copy { max-width: 100%; }
+.hero-photo .hero-eyebrow { text-shadow: 0 2px 10px rgba(2, 18, 32, 0.85); }
+.hero-photo h1 {
+  max-width: 28ch;
+  text-shadow: 0 2px 16px rgba(2, 18, 32, 0.85), 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+.hero-photo .hero-lead {
+  max-width: 100%;
+  font-size: clamp(1rem, 1.22vw, 1.16rem);
+  line-height: 1.62;
+  text-shadow: 0 2px 14px rgba(2, 18, 32, 0.85), 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+.hero-photo .hero-stats { text-shadow: 0 2px 12px rgba(2, 18, 32, 0.8); }
 @media (max-width: 640px) {
   .hero-photo { background-position: center, center, 70% bottom; }
 }
