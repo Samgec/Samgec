@@ -357,7 +357,7 @@ section.surface { background: var(--surface); }
      clouds) drifting, without cropping the panels out of frame. Linear
      timing keeps the speed constant through the "alternate" turnaround —
      ease-in-out would decelerate to a stop at each end before reversing. */
-  animation: heroPhotoDrift 20s linear infinite alternate;
+  animation: heroPhotoDrift 11s linear infinite alternate;
 }
 @keyframes heroPhotoDrift {
   from { background-position: center, center, 36% bottom; }
@@ -375,6 +375,14 @@ section.surface { background: var(--surface); }
     linear-gradient(to top, rgba(4, 26, 43, 0.85) 0%, rgba(4, 26, 43, 0) 42%),
     url("../assets/homepage-2.jpg");
   background-position: center, center, center;
+  /* This photo is nearly square, unlike the wide homepage shot, so "cover"
+     scales it to match the box's width and leaves slack top-to-bottom
+     instead of side-to-side — drift vertically instead of horizontally. */
+  animation: heroPhotoDriftPV 11s linear infinite alternate;
+}
+@keyframes heroPhotoDriftPV {
+  from { background-position: center, center, center 28%; }
+  to   { background-position: center, center, center 72%; }
 }
 
 /* Copy runs the full width of the container so the headline reads across
