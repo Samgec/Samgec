@@ -193,7 +193,7 @@ section.surface { background: var(--surface); }
   align-items: center;
   transition: background 0.4s ease, backdrop-filter 0.4s ease, box-shadow 0.4s ease;
 }
-.nav.solid {
+.nav.solid, .nav.nav-white {
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: saturate(160%) blur(18px);
   -webkit-backdrop-filter: saturate(160%) blur(18px);
@@ -201,16 +201,16 @@ section.surface { background: var(--surface); }
 }
 .nav .container { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
 .nav-logo { display: flex; align-items: center; gap: 0.6rem; font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; color: var(--white); letter-spacing: 0.02em; }
-.nav.solid .nav-logo { color: var(--ink-900); }
+.nav.solid .nav-logo, .nav.nav-white .nav-logo { color: var(--ink-900); }
 .nav-logo img { height: 64px; width: auto; }
 .nav-links { display: flex; gap: 1.85rem; align-items: center; }
 .nav-links a { font-size: 0.95rem; font-weight: 500; color: rgba(255,255,255,0.85); position: relative; transition: color 0.25s ease; }
-.nav.solid .nav-links a { color: var(--ink-700); }
+.nav.solid .nav-links a, .nav.nav-white .nav-links a { color: var(--ink-700); }
 .nav-links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; background: var(--brand-blue); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease; }
 .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
 .nav-cta { display: flex; align-items: center; gap: 0.75rem; }
 .nav-phone { display: none; align-items: center; gap: 0.4rem; font-family: var(--font-display); font-weight: 600; font-size: 0.95rem; color: var(--white); }
-.nav.solid .nav-phone { color: var(--ink-900); }
+.nav.solid .nav-phone, .nav.nav-white .nav-phone { color: var(--ink-900); }
 @media (min-width: 980px) { .nav-phone { display: inline-flex; } }
 .nav-toggle { display: none; width: 44px; height: 44px; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,0.1); }
 .nav-toggle span { display: block; width: 20px; height: 2px; background: var(--white); position: relative; transition: background 0.2s ease; }
@@ -219,7 +219,10 @@ section.surface { background: var(--surface); }
 .nav-toggle span::after { top: 7px; }
 .nav.solid .nav-toggle span,
 .nav.solid .nav-toggle span::before,
-.nav.solid .nav-toggle span::after { background: var(--ink-900); }
+.nav.solid .nav-toggle span::after,
+.nav.nav-white .nav-toggle span,
+.nav.nav-white .nav-toggle span::before,
+.nav.nav-white .nav-toggle span::after { background: var(--ink-900); }
 @media (max-width: 880px) {
   .nav-links { display: none; }
   .nav-cta .btn:not(.is-mobile) { display: none; }
@@ -270,6 +273,45 @@ section.surface { background: var(--surface); }
   animation: heroGlow 14s ease-in-out infinite alternate;
 }
 @keyframes heroGlow { from { transform: translate3d(-2%, 0, 0) scale(1); } to { transform: translate3d(3%, 2%, 0) scale(1.08); } }
+
+/* Casa Verde: green hero instead of the site's default blue, echoing the
+   program's own branding. Hue matched to the logo's green (#68B625),
+   scoped to this page only. Background is light/bright, so hero text
+   switches to dark green (see below) instead of white. */
+.hero-green { background: radial-gradient(120% 80% at 75% 20%, #ACD787 0%, #68B625 55%, #3E6D16 100%); }
+.hero-green::before { background: radial-gradient(circle at 80% 30%, rgba(214, 240, 170, 0.45), transparent 55%); }
+
+/* Casa Verde: swap the site's blue accent text for greens matching the
+   logo (#68B625). Dark tones throughout so text stays readable against
+   the light hero background as well as the white sections further down. */
+.page-casa-verde .eyebrow { color: #123626; }
+.page-casa-verde .hero h1 { color: #0E3B22; font-size: clamp(1.25rem, 2.75vw, 2.25rem); }
+.page-casa-verde .hero h1 .ink { color: #095C2E; }
+.page-casa-verde .hero-lead { color: #1E4A30; }
+.page-casa-verde .hero .btn.ghost.invert { --btn-fg: #0E3B22; --btn-bd: rgba(14, 59, 34, 0.45); }
+
+/* Casa Verde: bullet markers, borders, and link-hover states also switch
+   from the site's blue to the same green family. */
+.page-casa-verde .card ul.feat li::before { background: #68B625; }
+.page-casa-verde .step.is-active::before { background: #3C9350; border-color: #3C9350; box-shadow: 0 8px 24px rgba(80, 210, 140, 0.35); }
+.page-casa-verde .nav-links a::after { background: #68B625; }
+.page-casa-verde .nav-overlay a:hover { color: #68B625; }
+.page-casa-verde .footer a:hover { color: #68B625; }
+
+/* Casa Verde: the leaflet is dense with text, so give it more room than the
+   generic hero-asset placeholder — a wider column, a box sized to the
+   leaflet's own near-square aspect ratio (so "contain" fills it with no
+   letterboxing), and a hover zoom so it can be read up close. */
+@media (min-width: 960px) { .page-casa-verde .hero-grid { grid-template-columns: 1fr 1.3fr; } }
+.page-casa-verde .hero-asset { aspect-ratio: 931 / 918; }
+.page-casa-verde .hero-asset img {
+  padding: 0;
+  cursor: zoom-in;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  border-radius: inherit;
+}
+.page-casa-verde .hero-asset:hover { overflow: visible; z-index: 20; }
+.page-casa-verde .hero-asset:hover img { transform: scale(1.45); box-shadow: 0 24px 70px rgba(0, 0, 0, 0.4); }
 
 .hero-grid {
   position: relative;
@@ -325,7 +367,7 @@ section.surface { background: var(--surface); }
   overflow: hidden;
   box-shadow: var(--shadow-lg);
 }
-.hero-asset::after {
+.hero-asset:not(:has(img))::after {
   content: "NANO BANANA 3D PANEL ASSET 16:9";
   font-family: var(--font-display);
   font-weight: 600;
@@ -334,6 +376,7 @@ section.surface { background: var(--surface); }
   color: rgba(255,255,255,0.45);
 }
 .hero-asset svg { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.55; }
+.hero-asset img { width: 100%; height: 100%; object-fit: contain; padding: 1.5rem; }
 
 /* Homepage: full-bleed photo hero.
    The photo is a bright sky over panels, so a blue scrim carries the brand
