@@ -313,6 +313,59 @@ section.surface { background: var(--surface); }
 .page-casa-verde .hero-asset:hover { overflow: visible; z-index: 20; }
 .page-casa-verde .hero-asset:hover img { transform: scale(1.45); box-shadow: 0 24px 70px rgba(0, 0, 0, 0.4); }
 
+/* ---------- Eligibility checklist (Casa Verde Baterii) ---------- */
+.elig-list { display: grid; gap: 1rem; margin: 1.75rem 0; padding: 0; list-style: none; }
+.elig-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 1.1rem 1.25rem;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+.elig-item:has(input:checked) { border-color: #1F7E3C; background: rgba(31, 126, 60, 0.06); }
+.elig-item input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border: 2px solid var(--line);
+  border-radius: 6px;
+  margin-top: 0.1rem;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+.elig-item input[type="checkbox"]:checked { background: #1F7E3C; border-color: #1F7E3C; }
+.elig-item input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 3px;
+  width: 6px;
+  height: 11px;
+  border: solid var(--white);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.elig-item span { font-size: 0.98rem; line-height: 1.55; color: var(--ink-700); }
+.elig-result {
+  display: none;
+  text-align: center;
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  background: rgba(31, 126, 60, 0.08);
+  border: 1px solid rgba(31, 126, 60, 0.3);
+  margin-top: 0.5rem;
+}
+.elig-result.show { display: block; }
+.elig-result h3 { color: #1F7E3C; margin: 0 0 0.4rem; font-size: 1.6rem; }
+.elig-result p { margin: 0; color: var(--ink-600); }
+
 .hero-grid {
   position: relative;
   display: grid;
