@@ -208,6 +208,18 @@ section.surface { background: var(--surface); }
 .nav.solid .nav-links a, .nav.nav-white .nav-links a { color: var(--ink-700); }
 .nav-links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; background: var(--brand-blue); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease; }
 .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+
+/* Highlighted nav item (e.g. a seasonal program link) stands out from the
+   rest of the menu regardless of the nav's transparent/solid state. */
+.nav-links a.nav-highlight, .nav-overlay a.nav-highlight { color: var(--brand-blue); font-weight: 700; }
+.nav.solid .nav-links a.nav-highlight, .nav.nav-white .nav-links a.nav-highlight { color: var(--brand-blue); }
+
+/* Compact nav: a smaller logo buys enough width for every link (including
+   a highlighted one) to sit on a single line instead of wrapping. */
+.nav-compact .nav-logo img { height: 44px; }
+.nav-compact .nav-links { gap: 1.3rem; }
+.nav-compact .nav-links a { font-size: 0.9rem; }
+
 .nav-cta { display: flex; align-items: center; gap: 0.75rem; }
 .nav-phone { display: none; align-items: center; gap: 0.4rem; font-family: var(--font-display); font-weight: 600; font-size: 0.95rem; color: var(--white); }
 .nav.solid .nav-phone, .nav.nav-white .nav-phone { color: var(--ink-900); }
@@ -288,7 +300,17 @@ section.surface { background: var(--surface); }
 .page-casa-verde .hero h1 { color: #0E3B22; font-size: clamp(1.25rem, 2.75vw, 2.25rem); }
 .page-casa-verde .hero h1 .ink { color: #095C2E; }
 .page-casa-verde .hero-lead { color: #1E4A30; }
-.page-casa-verde .hero .btn.ghost.invert { --btn-fg: #0E3B22; --btn-bd: rgba(14, 59, 34, 0.45); }
+.page-casa-verde .hero .btn.ghost.invert { --btn-bg: var(--white); --btn-fg: #0E3B22; --btn-bd: var(--white); box-shadow: 0 4px 16px rgba(14, 59, 34, 0.18); }
+
+/* Casa Verde: nudge the headline block up without moving the CTA buttons
+   below it — transform doesn't affect sibling layout, so hero-cta stays
+   exactly where it was. */
+.page-casa-verde .hero-eyebrow,
+.page-casa-verde .hero h1,
+.page-casa-verde .hero-lead { transform: translateY(-2cm); }
+
+/* Casa Verde: a second CTA row, centered under the main pair of buttons. */
+.page-casa-verde .hero-cta-secondary { display: flex; justify-content: center; margin-top: 1rem; }
 
 /* Casa Verde: bullet markers, borders, and link-hover states also switch
    from the site's blue to the same green family. */
@@ -297,6 +319,7 @@ section.surface { background: var(--surface); }
 .page-casa-verde .nav-links a::after { background: #68B625; }
 .page-casa-verde .nav-overlay a:hover { color: #68B625; }
 .page-casa-verde .footer a:hover { color: #68B625; }
+.page-casa-verde .field input:focus { border-color: #1F7E3C; box-shadow: 0 0 0 4px rgba(31, 126, 60, 0.18); }
 
 /* Casa Verde: the leaflet is dense with text, so give it more room than the
    generic hero-asset placeholder — a wider column, a box sized to the
@@ -365,6 +388,29 @@ section.surface { background: var(--surface); }
 .elig-result.show { display: block; }
 .elig-result h3 { color: #1F7E3C; margin: 0 0 0.4rem; font-size: 1.6rem; }
 .elig-result p { margin: 0; color: var(--ink-600); }
+
+/* ---------- Scoring calculator (Casa Verde Baterii) ---------- */
+.calc-box {
+  margin-top: 2.5rem;
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  border: 1px solid var(--line);
+}
+.calc-box h3 { margin: 0 0 0.5rem; font-size: 1.3rem; }
+.calc-box > p { color: var(--ink-600); margin-bottom: 1.5rem; }
+.calc-fields { display: grid; gap: 1.25rem; grid-template-columns: 1fr; margin-bottom: 1.5rem; }
+@media (min-width: 560px) { .calc-fields { grid-template-columns: 1fr 1fr; } }
+.calc-result {
+  text-align: center;
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  background: rgba(31, 126, 60, 0.08);
+  border: 1px solid rgba(31, 126, 60, 0.3);
+}
+.calc-score { font-family: var(--font-display); font-size: 2.75rem; font-weight: 700; color: #1F7E3C; }
+.calc-score-max { font-size: 1.1rem; color: var(--ink-600); margin-left: 0.3rem; }
+.calc-breakdown { margin: 0.5rem 0 0; font-size: 0.88rem; color: var(--ink-600); }
 
 .hero-grid {
   position: relative;
@@ -551,6 +597,12 @@ section.surface { background: var(--surface); }
 .section-head { max-width: 760px; margin-bottom: clamp(2.5rem, 4vw, 4rem); }
 .section-head.center { margin-inline: auto; text-align: center; }
 .section-head.center .eyebrow { justify-content: center; }
+
+/* Casa Verde: "Cum funcționează" heading gets a battery product shot
+   alongside the copy instead of the usual single-column text block. */
+.cum-head { max-width: none; display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: center; }
+@media (min-width: 760px) { .cum-head { grid-template-columns: 1.4fr 1fr; } }
+.cum-head img { width: 100%; max-width: 440px; margin-inline: auto; display: block; }
 
 /* ---------- Process timeline ---------- */
 .timeline {
