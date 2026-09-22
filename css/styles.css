@@ -214,11 +214,29 @@ section.surface { background: var(--surface); }
 .nav-links a.nav-highlight, .nav-overlay a.nav-highlight { color: var(--brand-blue); font-weight: 700; }
 .nav.solid .nav-links a.nav-highlight, .nav.nav-white .nav-links a.nav-highlight { color: var(--brand-blue); }
 
-/* Compact nav: a smaller logo buys enough width for every link (including
-   a highlighted one) to sit on a single line instead of wrapping. */
-.nav-compact .nav-logo img { height: 44px; }
+/* Compact nav: tighter link spacing keeps every item (including a
+   highlighted one) on a single line despite the larger logo below. */
 .nav-compact .nav-links { gap: 1.3rem; }
 .nav-compact .nav-links a { font-size: 0.9rem; }
+
+/* Logo doubled and pulled out of the flex row so its extra width doesn't
+   eat into the menu — anchored to the far left of the bar, with the rest
+   of the nav padded clear of it. Only at desktop widths, where nav-links
+   are visible; on mobile the logo stays in flow next to the toggle. */
+@media (min-width: 1180px) {
+  .nav-compact .nav-logo { position: absolute; left: var(--gutter); top: 50%; transform: translateY(-50%); }
+  .nav-compact .nav-logo img { height: 88px; }
+  .nav-compact .container { padding-left: 300px; }
+  .nav-compact .nav-phone { display: none; }
+}
+/* The bigger logo needs more room than the site's usual 880px cutoff
+   allows, so this page switches to the mobile menu a bit earlier —
+   avoids a cramped zone where links wrap mid-word. */
+@media (max-width: 1179px) {
+  .nav-compact .nav-links { display: none; }
+  .nav-compact .nav-cta .btn:not(.is-mobile) { display: none; }
+  .nav-compact .nav-toggle { display: inline-flex; }
+}
 
 .nav-cta { display: flex; align-items: center; gap: 0.75rem; }
 .nav-phone { display: none; align-items: center; gap: 0.4rem; font-family: var(--font-display); font-weight: 600; font-size: 0.95rem; color: var(--white); }
