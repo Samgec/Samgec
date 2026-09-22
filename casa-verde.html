@@ -128,8 +128,8 @@
           <ul class="feat">
             <li>Cerere de finanțare</li>
             <li>Act de identitate</li>
-            <li>Certificat de atestare fiscala la bugetul de stat</li>
-            <li>Certificat de atestare fiscala la bugetul local (adresa de implementare si cea de domiciliu)</li>
+            <li>Certificat de atestare fiscala de la bugetul de stat</li>
+            <li>Certificat de atestare fiscala de la bugetul local (adresa de implementare si cea de domiciliu)</li>
             <li>Contractul de prosumator al solicitantului</li>
             <li>Certificat de racordare</li>
             <li>Factura de energie electrica pe numele solicitantului</li>
@@ -147,14 +147,41 @@
         <p class="lead">Acestea sunt condițiile de eligibilitate pentru finanțarea AFM a sistemelor de stocare a energiei.</p>
       </div>
       <ul class="elig-list" id="elig-list">
-        <li><label class="elig-item"><input type="checkbox" class="elig-check" /><span>Solicitantul are calitatea de prosumator</span></label></li>
-        <li><label class="elig-item"><input type="checkbox" class="elig-check" /><span>Nu se desfășoară activități economice la adresa de implementare sau acestea sunt contorizate separat</span></label></li>
-        <li><label class="elig-item"><input type="checkbox" class="elig-check" /><span>Nu există obligații restante la bugetul de stat și cel local nici la adresa de implementare nici la adresa de domiciliu a solicitantului</span></label></li>
-        <li><label class="elig-item"><input type="checkbox" class="elig-check" /><span>Pentru aceleași cheltuieli eligibile aferente sistemului de stocare nu s-a beneficiat de finanțare din alte fonduri publice</span></label></li>
+        <li class="elig-item">
+          <span>Solicitantul are calitatea de prosumator</span>
+          <span class="elig-toggle">
+            <label class="elig-opt"><input type="radio" name="q1" value="da" /><span>Da</span></label>
+            <label class="elig-opt is-no"><input type="radio" name="q1" value="nu" /><span>Nu</span></label>
+          </span>
+        </li>
+        <li class="elig-item">
+          <span>Nu se desfășoară activități economice la adresa de implementare sau acestea sunt contorizate separat</span>
+          <span class="elig-toggle">
+            <label class="elig-opt"><input type="radio" name="q2" value="da" /><span>Da</span></label>
+            <label class="elig-opt is-no"><input type="radio" name="q2" value="nu" /><span>Nu</span></label>
+          </span>
+        </li>
+        <li class="elig-item">
+          <span>Nu există obligații restante la bugetul de stat și cel local nici la adresa de implementare nici la adresa de domiciliu a solicitantului</span>
+          <span class="elig-toggle">
+            <label class="elig-opt"><input type="radio" name="q3" value="da" /><span>Da</span></label>
+            <label class="elig-opt is-no"><input type="radio" name="q3" value="nu" /><span>Nu</span></label>
+          </span>
+        </li>
+        <li class="elig-item">
+          <span>Pentru aceleași cheltuieli eligibile aferente sistemului de stocare nu s-a beneficiat de finanțare din alte fonduri publice</span>
+          <span class="elig-toggle">
+            <label class="elig-opt"><input type="radio" name="q4" value="da" /><span>Da</span></label>
+            <label class="elig-opt is-no"><input type="radio" name="q4" value="nu" /><span>Nu</span></label>
+          </span>
+        </li>
       </ul>
       <div class="elig-result" id="elig-result">
         <h3>Felicitări! Ești eligibil!</h3>
         <p>Îndeplinești condițiile AFM Casa Verde Baterii 2026. Contactează-ne pentru a pregăti dosarul.</p>
+      </div>
+      <div class="elig-result is-reject" id="elig-reject">
+        <p>Ne pare rău! Deocamdată nu poți beneficia de programul Casa Verde Baterii 2026. Te rugăm să ne contactezi pentru a vedea ce poți să faci ca să devii eligibil!</p>
       </div>
 
       <div class="calc-box" id="calculator-punctaj">
@@ -163,17 +190,18 @@
         <div class="calc-fields">
           <div class="field">
             <label for="calc-contributie">Contribuția proprie (lei)</label>
-            <input type="number" id="calc-contributie" min="0" step="500" placeholder="ex: 20000" />
+            <input type="text" inputmode="numeric" id="calc-contributie" placeholder="ex: 20.000" />
           </div>
           <div class="field">
             <label for="calc-capacitate">Capacitatea de stocare (kWh)</label>
-            <input type="number" id="calc-capacitate" min="0" step="0.5" placeholder="ex: 15" />
+            <input type="text" inputmode="decimal" id="calc-capacitate" placeholder="ex: 15,00" />
+            <p class="calc-warning" id="calc-capacity-warning">Capacitatea de stocare trebuie să fie de minim 10 kWh</p>
           </div>
         </div>
         <div class="calc-result">
-          <span class="calc-score" id="calc-score">0</span>
+          <span class="calc-score" id="calc-score">0.00</span>
           <span class="calc-score-max">/ 100 puncte</span>
-          <p class="calc-breakdown" id="calc-breakdown">Contribuție proprie: 0 pct · Capacitate stocare: 0 pct</p>
+          <p class="calc-breakdown" id="calc-breakdown">Contribuție proprie: 0.00 pct · Capacitate stocare: 0.00 pct</p>
         </div>
       </div>
     </div>
@@ -216,14 +244,33 @@
 <script>
   (function () {
     "use strict";
-    var checks = Array.prototype.slice.call(document.querySelectorAll(".elig-check"));
+    var names = ["q1", "q2", "q3", "q4"];
+    var radios = Array.prototype.slice.call(document.querySelectorAll('.elig-item input[type="radio"]'));
     var result = document.getElementById("elig-result");
+    var reject = document.getElementById("elig-reject");
     function update() {
-      var allChecked = checks.every(function (c) { return c.checked; });
-      result.classList.toggle("show", allChecked);
-      if (allChecked) result.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      var hasNo = false;
+      var allYes = true;
+      names.forEach(function (n) {
+        var checked = document.querySelector('input[name="' + n + '"]:checked');
+        if (!checked) { allYes = false; return; }
+        if (checked.value === "nu") hasNo = true;
+        else if (checked.value !== "da") allYes = false;
+      });
+      if (hasNo) {
+        result.classList.remove("show");
+        reject.classList.add("show");
+        reject.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      } else if (allYes) {
+        reject.classList.remove("show");
+        result.classList.add("show");
+        result.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      } else {
+        result.classList.remove("show");
+        reject.classList.remove("show");
+      }
     }
-    checks.forEach(function (c) { c.addEventListener("change", update); });
+    radios.forEach(function (r) { r.addEventListener("change", update); });
   })();
 
   (function () {
@@ -232,17 +279,38 @@
     var capInput = document.getElementById("calc-capacitate");
     var scoreEl = document.getElementById("calc-score");
     var breakdownEl = document.getElementById("calc-breakdown");
+    var capWarningEl = document.getElementById("calc-capacity-warning");
+    function formatThousands(digits) {
+      return digits.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
     function calc() {
-      var contrib = Math.max(0, parseFloat(contribInput.value) || 0);
-      var cap = Math.max(0, parseFloat(capInput.value) || 0);
+      var contrib = Math.max(0, parseFloat(contribInput.value.replace(/\./g, "")) || 0);
+      var cap = Math.max(0, parseFloat(capInput.value.replace(",", ".")) || 0);
       var cpScore = Math.min(50, (contrib / 25000) * 50);
       var csScore = Math.min(50, (cap / 20) * 50);
-      var total = Math.round(cpScore + csScore);
-      scoreEl.textContent = total;
-      breakdownEl.textContent = "Contribuție proprie: " + Math.round(cpScore) + " pct · Capacitate stocare: " + Math.round(csScore) + " pct";
+      var total = cpScore + csScore;
+      scoreEl.textContent = total.toFixed(2);
+      breakdownEl.textContent = "Contribuție proprie: " + cpScore.toFixed(2) + " pct · Capacitate stocare: " + csScore.toFixed(2) + " pct";
+      capWarningEl.classList.toggle("show", capInput.value !== "" && cap < 10);
     }
-    contribInput.addEventListener("input", calc);
-    capInput.addEventListener("input", calc);
+    contribInput.addEventListener("input", function () {
+      var digits = contribInput.value.replace(/\D/g, "");
+      contribInput.value = formatThousands(digits);
+      calc();
+    });
+    capInput.addEventListener("input", function () {
+      var v = capInput.value.replace(/[^\d,]/g, "");
+      var parts = v.split(",");
+      if (parts.length > 2) v = parts[0] + "," + parts.slice(1).join("");
+      capInput.value = v;
+      calc();
+    });
+    capInput.addEventListener("blur", function () {
+      if (capInput.value === "") return;
+      var v = parseFloat(capInput.value.replace(",", "."));
+      capInput.value = isNaN(v) ? "" : Math.max(0, v).toFixed(2).replace(".", ",");
+      calc();
+    });
   })();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
