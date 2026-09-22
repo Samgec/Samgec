@@ -211,7 +211,7 @@ section.surface { background: var(--surface); }
 
 /* Highlighted nav item (e.g. a seasonal program link) stands out from the
    rest of the menu regardless of the nav's transparent/solid state. */
-.nav-links a.nav-highlight, .nav-overlay a.nav-highlight { color: var(--brand-blue); font-weight: 700; }
+.nav-links a.nav-highlight, .nav-overlay a.nav-highlight { color: var(--white); font-weight: 700; }
 .nav.solid .nav-links a.nav-highlight, .nav.nav-white .nav-links a.nav-highlight { color: var(--brand-blue); }
 
 /* Compact nav: tighter link spacing keeps every item (including a
