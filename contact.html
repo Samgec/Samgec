@@ -80,7 +80,8 @@
       <div class="container">
         <div class="split">
           <div id="ofertă" class="reveal">
-            <form class="form" action="#" method="post" novalidate>
+            <form class="form" id="oferta-form" action="#" method="post" novalidate>
+              <input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off" />
               <h3 style="margin-bottom:0.25rem">Solicită ofertă</h3>
               <p class="muted" style="margin-top:0;font-size:0.95rem">Completarea durează mai puțin de un minut.</p>
               <div class="row">
@@ -130,6 +131,7 @@
               </label>
               <button class="btn" type="submit">Trimite cererea <span class="arr">→</span></button>
             </form>
+            <div class="form-result" id="form-result" role="status" aria-live="polite"></div>
           </div>
           <div>
             <h3>Date de contact</h3>
@@ -191,6 +193,44 @@
       </svg></a>
   </div>
 
+  <script>
+    (function () {
+      "use strict";
+      var form = document.getElementById("oferta-form");
+      if (!form) return;
+      var resultEl = document.getElementById("form-result");
+      var submitBtn = form.querySelector('button[type="submit"]');
+      var submitLabel = submitBtn.innerHTML;
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        resultEl.className = "form-result";
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Se trimite...";
+
+        var data = Object.fromEntries(new FormData(form).entries());
+
+        fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        })
+          .then(function (res) { return res.json().then(function (body) { return { ok: res.ok, body: body }; }); })
+          .then(function (result) {
+            if (!result.ok || !result.body.success) throw new Error((result.body && result.body.message) || "submit failed");
+            form.hidden = true;
+            resultEl.textContent = "Mulțumim! Mesajul tău a fost recepționat. Te vom contacta în cel mai scurt timp!";
+            resultEl.className = "form-result show is-success";
+          })
+          .catch(function () {
+            resultEl.textContent = "A apărut o eroare la trimitere. Te rugăm să ne suni la 0261 760 080 sau să ne scrii la office@samgec.ro.";
+            resultEl.className = "form-result show is-error";
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = submitLabel;
+          });
+      });
+    })();
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
   <script src="js/main.js" defer></script>

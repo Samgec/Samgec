@@ -828,6 +828,10 @@ section.dark .quote cite { color: rgba(255,255,255,0.6); }
   display: grid;
   gap: 1.1rem;
 }
+/* A class-selector "display" always outranks the UA stylesheet's default
+   [hidden] rule, so hiding the form via the native hidden property needs
+   an explicit, equally-specific override here. */
+.form[hidden] { display: none; }
 .form .row { display: grid; gap: 1.1rem; grid-template-columns: 1fr; }
 @media (min-width: 600px) { .form .row { grid-template-columns: 1fr 1fr; } }
 .field { display: grid; gap: 0.4rem; }
@@ -850,6 +854,22 @@ section.dark .quote cite { color: rgba(255,255,255,0.6); }
 .field textarea { resize: vertical; min-height: 120px; }
 .consent { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.85rem; color: var(--ink-600); }
 .consent input { margin-top: 0.25rem; }
+
+/* Honeypot field for the contact form: present in the DOM for bots to find
+   and fill in (revealing them), invisible and unreachable for real users. */
+.hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+
+.form-result {
+  display: none;
+  margin-top: 1.25rem;
+  padding: 1.1rem 1.4rem;
+  border-radius: var(--radius);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+.form-result.show { display: block; }
+.form-result.is-success { background: rgba(31, 126, 60, 0.08); border: 1px solid rgba(31, 126, 60, 0.3); color: #1F7E3C; }
+.form-result.is-error { background: rgba(179, 38, 30, 0.06); border: 1px solid rgba(179, 38, 30, 0.3); color: #8C1D14; }
 
 /* ---------- Footer ---------- */
 .footer {
