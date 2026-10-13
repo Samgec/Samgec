@@ -201,10 +201,36 @@
       var resultEl = document.getElementById("form-result");
       var submitBtn = form.querySelector('button[type="submit"]');
       var submitLabel = submitBtn.innerHTML;
+      var gdprEl = form.querySelector('input[name="gdpr"]');
+      var requiredFields = [
+        { el: document.getElementById("nume"), label: "Nume și prenume" },
+        { el: document.getElementById("tel"), label: "Telefon" },
+        { el: document.getElementById("judet"), label: "Județ" },
+        { el: document.getElementById("tip"), label: "Tip interes" },
+      ];
+
+      function showError(message, focusEl) {
+        resultEl.textContent = message;
+        resultEl.className = "form-result show is-error";
+        if (focusEl) focusEl.focus();
+      }
 
       form.addEventListener("submit", function (e) {
         e.preventDefault();
         resultEl.className = "form-result";
+
+        for (var i = 0; i < requiredFields.length; i++) {
+          var f = requiredFields[i];
+          if (!f.el.value || !f.el.value.trim()) {
+            showError('Completați câmpul "' + f.label + '".', f.el);
+            return;
+          }
+        }
+        if (!gdprEl.checked) {
+          showError("Bifează căsuța de acord pentru prelucrarea datelor.", gdprEl);
+          return;
+        }
+
         submitBtn.disabled = true;
         submitBtn.textContent = "Se trimite...";
 
