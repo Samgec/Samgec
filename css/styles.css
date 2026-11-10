@@ -326,8 +326,25 @@ section.surface { background: var(--surface); }
    below it — transform doesn't affect sibling layout, so hero-cta stays
    exactly where it was. */
 .page-casa-verde .hero-eyebrow,
+.page-casa-verde .hero-dates,
 .page-casa-verde .hero h1,
 .page-casa-verde .hero-lead { transform: translateY(-2cm); }
+
+/* Casa Verde: the application-window dates, called out as a bold badge
+   so the deadline doesn't get lost among the surrounding hero copy. */
+.page-casa-verde .hero-dates {
+  display: inline-block;
+  margin: 0.7rem 0 1.1rem;
+  padding: 0.85rem 1.4rem;
+  border-radius: 14px;
+  background: #0E3B22;
+  border: none;
+  font-size: 1.1rem;
+  color: var(--white);
+  text-align: center;
+  box-shadow: 0 10px 28px rgba(14, 59, 34, 0.4);
+}
+.page-casa-verde .hero-dates strong { font-weight: 800; font-size: 1.2rem; display: block; margin-top: 0.15rem; white-space: nowrap; }
 
 /* Casa Verde: a second CTA row, centered under the main pair of buttons. */
 .page-casa-verde .hero-cta-secondary { display: flex; justify-content: center; margin-top: 1rem; }
@@ -340,6 +357,17 @@ section.surface { background: var(--surface); }
 .page-casa-verde .nav-overlay a:hover { color: #68B625; }
 .page-casa-verde .footer a:hover { color: #68B625; }
 .page-casa-verde .field input:focus { border-color: #1F7E3C; box-shadow: 0 0 0 4px rgba(31, 126, 60, 0.18); }
+
+/* Casa Verde: the closing CTA heading is set on 3 explicit lines (date
+   called out on its own line), so it needs a smaller clamp than the
+   shared .cta-block h2 default to avoid each line wrapping again. */
+.page-casa-verde .cta-block h2 { font-size: clamp(1.4rem, 2.6vw, 2.25rem); }
+.page-casa-verde .cta-block > div { text-align: center; }
+
+/* Casa Verde: the section padding-block default (5-9rem) stacked on top of
+   the calc-box's own spacing left a very large gap before this closing CTA
+   — pull just this section's top padding in, keep the bottom as-is. */
+.page-casa-verde .cta-section-tight { padding-top: 1.5rem; }
 
 /* Casa Verde: the leaflet is dense with text, so give it more room than the
    generic hero-asset placeholder — a wider column, a box sized to the

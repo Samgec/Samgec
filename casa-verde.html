@@ -62,6 +62,7 @@
     <div class="container hero-grid">
       <div>
         <p class="eyebrow hero-eyebrow">Programul AFM Casa Verde Baterii 2026</p>
+        <p class="hero-dates">Depunerea cererilor de finanțare: <strong>20 nov 2026, ora 10:00 – 25 nov 2026, ora 23:59</strong></p>
         <h1>Până la <span class="ink">15.000 lei</span> subvenție pentru sisteme de stocare a energiei</h1>
         <p class="hero-lead">SAMGEC este instalator agreat AFM. Te ajutăm să verifici eligibilitatea, te consiliem, te îndrumăm în alegerea celei mai bune variante pentru tine, urmărim termenele și instalăm sistemul.</p>
         <div class="hero-cta">
@@ -199,6 +200,7 @@
           <div class="field">
             <label for="calc-contributie">Contribuția proprie (lei)</label>
             <input type="text" inputmode="numeric" id="calc-contributie" placeholder="ex: 20.000" />
+            <p class="calc-warning" id="calc-contributie-warning">Contribuția proprie nu poate fi 0</p>
           </div>
           <div class="field">
             <label for="calc-capacitate">Capacitatea de stocare (kWh)</label>
@@ -222,11 +224,11 @@
     </div>
   </section>
 
-  <section>
+  <section class="cta-section-tight">
     <div class="container">
       <div class="cta-block reveal">
         <div>
-          <h2>Următoarea sesiune AFM se deschide curând. Pregătește-ți dosarul!</h2>
+          <h2>Înscrierile încep în<br/>20 noiembrie 2026, ora 10:00.<br/>Pregătește-ți dosarul!</h2>
           <p>Înscrie-te pe lista noastră de pre-pregătire.</p>
         </div>
         <div class="actions">
@@ -296,6 +298,7 @@
     var scoreEl = document.getElementById("calc-score");
     var breakdownEl = document.getElementById("calc-breakdown");
     var capWarningEl = document.getElementById("calc-capacity-warning");
+    var contribWarningEl = document.getElementById("calc-contributie-warning");
     function formatThousands(digits) {
       return digits.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
@@ -304,13 +307,14 @@
       var cap = Math.max(0, parseFloat(capInput.value.replace(",", ".")) || 0);
       var finValue = "";
       finInputs.forEach(function (r) { if (r.checked) finValue = r.value; });
-      var cpScore = Math.max(0, (contrib - 5000) / 10000) * 25 + 10;
-      var csScore = 4 * cap - 20;
+      var cpScore = Math.min(35, Math.max(0, (contrib - 5000) / 10000) * 25 + 10);
+      var csScore = Math.min(40, Math.max(0, 4 * cap - 20));
       var fScore = finValue === "da" ? 0 : finValue === "nu" ? 25 : 0;
       var total = cpScore + csScore + fScore;
       scoreEl.textContent = total.toFixed(2);
       breakdownEl.textContent = "Contribuție proprie: " + cpScore.toFixed(2) + " pct · Capacitate stocare: " + csScore.toFixed(2) + " pct · Finanțare anterioară: " + fScore.toFixed(2) + " pct";
       capWarningEl.classList.toggle("show", capInput.value !== "" && cap < 10);
+      contribWarningEl.classList.toggle("show", contribInput.value !== "" && contrib === 0);
     }
     contribInput.addEventListener("input", function () {
       var digits = contribInput.value.replace(/\D/g, "");
