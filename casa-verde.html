@@ -123,6 +123,7 @@
             <li>Nu se desfășoară activități economice la adresa de implementare sau acestea sunt contorizate separat</li>
             <li>Nu există obligații restante la bugetul de stat și cel local nici la adresa de implementare nici la adresa de domiciliu a solicitantului</li>
             <li>Pentru aceleași cheltuieli eligibile aferente sistemului de stocare nu s-a beneficiat de finanțare din alte fonduri publice</li>
+            <li>Solicitantul care a beneficiat de finanțare pentru un sistem de stocare diferit prin alte proiecte finanțate din fonduri publice, naționale sau europene</li>
           </ul>
         </article>
         <article class="card">
@@ -188,7 +189,12 @@
 
       <div class="calc-box" id="calculator-punctaj">
         <h3>Calculează-ți punctajul</h3>
-        <p>Proiectele eligibile sunt selectate pe baza unui punctaj: 50% din contribuția proprie, 50% din capacitatea de stocare. Introdu cele două valori pentru o estimare.</p>
+        <p>Proiectele eligibile sunt selectate pe baza unui punctaj format din:</p>
+        <ul class="calc-weights">
+          <li><strong>40%</strong> contribuția proprie</li>
+          <li><strong>35%</strong> capacitatea de stocare</li>
+          <li><strong>25%</strong> finanțare anterioară</li>
+        </ul>
         <div class="calc-fields">
           <div class="field">
             <label for="calc-contributie">Contribuția proprie (lei)</label>
@@ -199,11 +205,18 @@
             <input type="text" inputmode="decimal" id="calc-capacitate" placeholder="ex: 15,00" />
             <p class="calc-warning" id="calc-capacity-warning">Capacitatea de stocare trebuie să fie de minim 10 kWh</p>
           </div>
+          <div class="field">
+            <label>Finanțare anterioară</label>
+            <span class="elig-toggle">
+              <label class="elig-opt"><input type="radio" name="calc-finantare" value="da" /><span>Da</span></label>
+              <label class="elig-opt is-no"><input type="radio" name="calc-finantare" value="nu" /><span>Nu</span></label>
+            </span>
+          </div>
         </div>
         <div class="calc-result">
           <span class="calc-score" id="calc-score">0.00</span>
           <span class="calc-score-max">/ 100 puncte</span>
-          <p class="calc-breakdown" id="calc-breakdown">Contribuție proprie: 0.00 pct · Capacitate stocare: 0.00 pct</p>
+          <p class="calc-breakdown" id="calc-breakdown">Contribuție proprie: 0.00 pct · Capacitate stocare: 0.00 pct · Finanțare anterioară: 0.00 pct</p>
         </div>
       </div>
     </div>
@@ -279,6 +292,7 @@
     "use strict";
     var contribInput = document.getElementById("calc-contributie");
     var capInput = document.getElementById("calc-capacitate");
+    var finInputs = Array.prototype.slice.call(document.querySelectorAll('input[name="calc-finantare"]'));
     var scoreEl = document.getElementById("calc-score");
     var breakdownEl = document.getElementById("calc-breakdown");
     var capWarningEl = document.getElementById("calc-capacity-warning");
@@ -288,11 +302,14 @@
     function calc() {
       var contrib = Math.max(0, parseFloat(contribInput.value.replace(/\./g, "")) || 0);
       var cap = Math.max(0, parseFloat(capInput.value.replace(",", ".")) || 0);
-      var cpScore = Math.min(50, (contrib / 25000) * 50);
-      var csScore = Math.min(50, (cap / 20) * 50);
-      var total = cpScore + csScore;
+      var finValue = "";
+      finInputs.forEach(function (r) { if (r.checked) finValue = r.value; });
+      var cpScore = Math.max(0, (contrib - 5000) / 10000) * 25 + 10;
+      var csScore = 4 * cap - 20;
+      var fScore = finValue === "da" ? 0 : finValue === "nu" ? 25 : 0;
+      var total = cpScore + csScore + fScore;
       scoreEl.textContent = total.toFixed(2);
-      breakdownEl.textContent = "Contribuție proprie: " + cpScore.toFixed(2) + " pct · Capacitate stocare: " + csScore.toFixed(2) + " pct";
+      breakdownEl.textContent = "Contribuție proprie: " + cpScore.toFixed(2) + " pct · Capacitate stocare: " + csScore.toFixed(2) + " pct · Finanțare anterioară: " + fScore.toFixed(2) + " pct";
       capWarningEl.classList.toggle("show", capInput.value !== "" && cap < 10);
     }
     contribInput.addEventListener("input", function () {
@@ -312,6 +329,9 @@
       var v = parseFloat(capInput.value.replace(",", "."));
       capInput.value = isNaN(v) ? "" : Math.max(0, v).toFixed(2).replace(".", ",");
       calc();
+    });
+    finInputs.forEach(function (r) {
+      r.addEventListener("change", calc);
     });
   })();
 </script>

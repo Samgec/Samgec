@@ -346,7 +346,7 @@ section.surface { background: var(--surface); }
    leaflet's own near-square aspect ratio (so "contain" fills it with no
    letterboxing), and a hover zoom so it can be read up close. */
 @media (min-width: 960px) { .page-casa-verde .hero-grid { grid-template-columns: 1fr 1.3fr; } }
-.page-casa-verde .hero-asset { aspect-ratio: 931 / 918; }
+.page-casa-verde .hero-asset { aspect-ratio: 1000 / 1097; }
 .page-casa-verde .hero-asset img {
   padding: 0;
   cursor: zoom-in;
@@ -413,9 +413,14 @@ section.surface { background: var(--surface); }
   border: 1px solid var(--line);
 }
 .calc-box h3 { margin: 0 0 0.5rem; font-size: 1.3rem; }
-.calc-box > p { color: var(--ink-600); margin-bottom: 1.5rem; }
+.calc-box > p { color: var(--ink-600); margin-bottom: 0.75rem; }
+.calc-weights { display: grid; gap: 0.4rem; margin: 0 0 1.5rem; padding: 0; list-style: none; }
+.calc-weights li { font-size: 0.95rem; color: var(--ink-700); padding-left: 1.4rem; position: relative; }
+.calc-weights li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 8px; height: 8px; border-radius: 2px; background: #1F7E3C; transform: rotate(45deg); }
+.calc-weights strong { color: #1F7E3C; }
 .calc-fields { display: grid; gap: 1.25rem; grid-template-columns: 1fr; margin-bottom: 1.5rem; }
 @media (min-width: 560px) { .calc-fields { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 860px) { .calc-fields { grid-template-columns: 1fr 1fr 1fr; } }
 .calc-warning { display: none; margin: 0.4rem 0 0; font-size: 0.82rem; color: #B3261E; }
 .calc-warning.show { display: block; }
 .calc-result {
