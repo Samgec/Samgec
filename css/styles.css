@@ -344,7 +344,7 @@ section.surface { background: var(--surface); }
   text-align: center;
   box-shadow: 0 10px 28px rgba(14, 59, 34, 0.4);
 }
-.page-casa-verde .hero-dates strong { font-weight: 800; font-size: 1.2rem; display: block; margin-top: 0.15rem; white-space: nowrap; }
+.page-casa-verde .hero-dates strong { font-weight: 800; font-size: 1.2rem; display: block; margin-top: 0.15rem; }
 
 /* Casa Verde: a second CTA row, centered under the main pair of buttons. */
 .page-casa-verde .hero-cta-secondary { display: flex; justify-content: center; margin-top: 1rem; }
@@ -470,6 +470,7 @@ section.surface { background: var(--surface); }
   align-items: center;
 }
 @media (min-width: 960px) { .hero-grid { grid-template-columns: 1.1fr 1fr; } }
+.hero-grid > div { min-width: 0; }
 
 .hero-eyebrow { color: var(--accent-soft); }
 .hero h1 { color: var(--white); }
