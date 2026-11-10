@@ -417,6 +417,12 @@ section.surface { background: var(--surface); }
 .elig-opt input { position: absolute; opacity: 0; width: 0; height: 0; }
 .elig-opt:has(input:checked) { border-color: #1F7E3C; background: #1F7E3C; color: var(--white); }
 .elig-opt.is-no:has(input:checked) { border-color: #B3261E; background: #B3261E; color: var(--white); }
+
+/* Casa Verde: "Finanțare anterioară" inverts the Da/Nu colors from the
+   eligibility checklist above — here Da (already funded) is the
+   unfavorable answer, so it's red, and Nu is favorable, so it's green. */
+.elig-opt:has(input[name="calc-finantare"]:checked) { border-color: #B3261E; background: #B3261E; }
+.elig-opt.is-no:has(input[name="calc-finantare"]:checked) { border-color: #1F7E3C; background: #1F7E3C; }
 .elig-result {
   display: none;
   text-align: center;
