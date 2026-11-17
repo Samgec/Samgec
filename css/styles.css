@@ -374,7 +374,7 @@ section.surface { background: var(--surface); }
    leaflet's own near-square aspect ratio (so "contain" fills it with no
    letterboxing), and a hover zoom so it can be read up close. */
 @media (min-width: 960px) { .page-casa-verde .hero-grid { grid-template-columns: 1fr 1.3fr; } }
-.page-casa-verde .hero-asset { aspect-ratio: 1000 / 1097; }
+.page-casa-verde .hero-asset { aspect-ratio: 1000 / 1153; }
 .page-casa-verde .hero-asset img {
   padding: 0;
   cursor: zoom-in;
